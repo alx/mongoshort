@@ -74,7 +74,7 @@ post '/new' do
     return { :error => "'url' parameter is missing" }.to_json
   end
   
-  url = URL.find_or_create(params[:url])
+  url = URL.find_or_create(params[:url], false)
   return url.to_json
 end
 
