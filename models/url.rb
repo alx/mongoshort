@@ -10,7 +10,11 @@ class URL
   validates_format_of :full_url, :with => URI::regexp(%w(http https))
 
   def self.find_or_create(new_url)
-    url_key = Digest::MD5.hexdigest(new_url)[0..4]
+
+    url_key = Digest::MD5.hexdigest(new_url)
+    url_key = url_key.to_i(16) # transform to base16 (hexa)
+    url_key = url_key.to_s(36) # transform to base36 ([0..9-a..z])
+
     begin
       # Check if the key exists, so we don't have to create the URL again.
       url = self.find_by_url_key(url_key)
